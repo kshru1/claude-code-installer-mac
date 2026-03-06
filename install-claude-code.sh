@@ -115,7 +115,7 @@ else
   # PATHに追加
   if [[ "$ARCH" == "arm64" ]]; then
     echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$HOME/.zprofile"
-    eval "$(/opt/homebrew/bin/brew shellenv)"
+    eval "$(/opt/homebrew/bin/brew shellenv)" 2>/dev/null || true
   else
     eval "$(/usr/local/bin/brew shellenv)" 2>/dev/null || true
   fi
@@ -125,9 +125,9 @@ else
   else
     # 再度PATH確認
     if [[ -f /opt/homebrew/bin/brew ]]; then
-      eval "$(/opt/homebrew/bin/brew shellenv)"
+      eval "$(/opt/homebrew/bin/brew shellenv)" 2>/dev/null || true
     elif [[ -f /usr/local/bin/brew ]]; then
-      eval "$(/usr/local/bin/brew shellenv)"
+      eval "$(/usr/local/bin/brew shellenv)" 2>/dev/null || true
     fi
 
     if command -v brew &>/dev/null; then
@@ -179,11 +179,14 @@ if command -v claude &>/dev/null; then
   CURRENT_VERSION=$(claude --version 2>/dev/null || echo "installed")
   print_info "Claude Code は既にインストールされています ($CURRENT_VERSION)"
   print_info "最新版に更新します..."
-  npm install -g @anthropic-ai/claude-code@latest
-  print_success "Claude Code を最新版に更新しました"
+  if npm install -g @anthropic-ai/claude-code@latest; then
+    print_success "Claude Code を最新版に更新しました"
+  else
+    print_warning "更新に失敗しましたが、既存バージョンで利用可能です"
+  fi
 else
   print_info "Claude Code をインストールしています..."
-  npm install -g @anthropic-ai/claude-code@latest
+  npm install -g @anthropic-ai/claude-code@latest || true
 
   if command -v claude &>/dev/null; then
     print_success "Claude Code インストール完了"
