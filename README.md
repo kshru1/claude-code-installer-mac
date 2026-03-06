@@ -16,7 +16,7 @@
 ターミナルを開いて、以下を**コピペ**して Enter：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/kasahara-ull/claude-code-installer-mac/main/install-claude-code.sh | bash
+bash <(curl -fsSL https://raw.githubusercontent.com/kshru1/claude-code-installer-mac/master/install-claude-code.sh)
 ```
 
 > 💡 ターミナルの開き方: `Command + Space` → 「ターミナル」と入力 → Enter
